@@ -2,7 +2,6 @@ import 'package:cspc_recog/attendance/models/profile.dart';
 import 'package:cspc_recog/attendance/widget/circle_group.dart';
 import 'package:cspc_recog/common/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:circle_list/circle_list.dart';
 import '../urls.dart';
 
 final Color colorMain = Color(0xff86E3CE);

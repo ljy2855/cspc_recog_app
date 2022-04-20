@@ -198,13 +198,9 @@ class _AttendancePageState extends State<AttendancePage> {
               maxHeight: size,
               maxWidth: size,
             ),
-            child: SizedBox(
-              child: Image(
-                height: size,
-                width: size,
-                fit: BoxFit.contain,
-                image: AssetImage('assets/images/profile.png'),
-              ),
+            child: CircleAvatar(
+              minRadius: size * 0.9,
+              backgroundImage: AssetImage('assets/images/profile_default.png'),
             ),
           )
         : SizedBox(
@@ -258,7 +254,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                     backgroundImage: profile.profileImageUrl ==
                                             null
                                         ? AssetImage(
-                                            'assets/images/profile.png')
+                                            'assets/images/profile_default.png')
                                         : NetworkImage(UrlPrefix.urls.substring(
                                                 0, UrlPrefix.urls.length - 1) +
                                             profile.profileImageUrl),

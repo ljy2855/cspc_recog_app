@@ -8,7 +8,6 @@ import 'package:cspc_recog/providers/userData.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:provider/provider.dart';
 
 //Main App Run

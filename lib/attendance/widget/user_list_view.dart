@@ -1,3 +1,5 @@
+import 'package:cspc_recog/attendance/widget/profile_image_view.dart';
+import 'package:cspc_recog/settings.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/custom_icons_icons.dart';
@@ -9,8 +11,48 @@ Widget userListView(final List<ProfileModel> profileList, double height,
     onTap: () => showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-              title: Text("Success"),
-              content: Text("Save successfully"),
+              backgroundColor: colorSub,
+              title: Container(
+                child: Text(
+                  "우리",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              contentPadding: EdgeInsets.only(
+                top: 30.0,
+              ),
+              content: SizedBox(
+                height: height * 0.6,
+                width: width * 0.7,
+                child: Container(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                    decoration: BoxDecoration(color: Colors.white70),
+                    child: ListView(
+                      children: profileList
+                          .map(
+                            (profile) => Container(
+                              padding: EdgeInsets.only(bottom: 7),
+                              child: Row(
+                                children: [
+                                  profileImageView(
+                                      profile.profileImageUrl, height * 0.05),
+                                  Padding(padding: EdgeInsets.only(left: 10)),
+                                  Text(
+                                    profile.nickName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    )),
+              ),
             )),
     child: Container(
       alignment: Alignment.center,

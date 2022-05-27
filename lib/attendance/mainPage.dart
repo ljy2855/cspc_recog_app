@@ -1,11 +1,12 @@
 import 'package:cspc_recog/attendance/models/profile.dart';
 import 'package:cspc_recog/attendance/widget/circle_group.dart';
+import 'package:cspc_recog/attendance/widget/profile_image_view.dart';
+import 'package:cspc_recog/attendance/widget/user_list_view.dart';
+import 'package:cspc_recog/attendance/widget/user_rank_view.dart';
 import 'package:cspc_recog/common/custom_icons_icons.dart';
+import 'package:cspc_recog/settings.dart';
 import 'package:flutter/material.dart';
 import '../urls.dart';
-
-final Color colorMain = Color(0xff86E3CE);
-final Color colorSub = Color(0xffFFDD94);
 
 class AttendancePage extends StatefulWidget {
   @override
@@ -73,7 +74,7 @@ class _AttendancePageState extends State<AttendancePage> {
                   color: colorMain,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                child: rankingContent(winnerProfile),
+                child: userRankView(winnerProfile, height, width),
               ),
             ),
             SizedBox(
@@ -84,142 +85,13 @@ class _AttendancePageState extends State<AttendancePage> {
                   color: colorSub,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                child: woriContent(),
+                child: userListView(profileList, height, width, context),
               ),
             )
           ],
         ),
       ),
     );
-  }
-
-  Widget rankingContent(final ProfileModel profile) {
-    return Container(
-      //alignment: Alignment.center,
-      child: SizedBox(
-        height: 0.13,
-        width: width * 0.56,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  Padding(padding: EdgeInsets.only(left: width * 0.06)),
-                  Text(
-                    "이달의\n옹동이",
-                    style: TextStyle(
-                      height: 1.32,
-                      fontFamily: "Pretendard",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(left: width * 0.1)),
-                  SizedBox(
-                    height: height * 0.1,
-                    width: width * 0.28,
-                    child: Stack(
-                      children: [
-                        profileImageView(
-                            profile.profileImageUrl, height * 0.09),
-                        Positioned(
-                          left: height * 0.05,
-                          bottom: 0,
-                          child: Text(
-                            profile.nickName,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(padding: EdgeInsets.only(top: height * 0.01)),
-            Text(
-              "이번 주에 가장 많이 출석한 사람은 누구일까요?",
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget woriContent() {
-    return GestureDetector(
-      onTap: () => showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text("Success"),
-                content: Text("Save successfully"),
-              )),
-      child: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(
-          vertical: height * 0.02,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              CustomIcons.wori2,
-              color: Colors.white,
-              size: width * 0.1,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: width * 0.06, top: height * 0.015),
-              child: Text(
-                "우리",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget profileImageView(final profileImageUrl, double size) {
-    return profileImageUrl == null
-        ? Container(
-            constraints: BoxConstraints(
-              maxHeight: size,
-              maxWidth: size,
-            ),
-            child: CircleAvatar(
-              minRadius: size * 0.9,
-              backgroundImage: AssetImage('assets/images/profile_default.png'),
-            ),
-          )
-        : SizedBox(
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: size * 0.9,
-                maxWidth: size * 0.9,
-              ),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      UrlPrefix.urls.substring(0, UrlPrefix.urls.length - 1) +
-                          profileImageUrl),
-                ),
-              ),
-            ),
-          );
   }
 
   Widget onlineProfileView(final List<ProfileModel> profileList) {

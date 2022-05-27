@@ -1,6 +1,7 @@
 import 'package:cspc_recog/attendance/models/profile.dart';
 import 'package:cspc_recog/main.dart';
 import 'package:cspc_recog/providers/userData.dart';
+import 'package:cspc_recog/settings.dart';
 //import 'package:cspc_recog/auth/groupSelect.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -28,23 +29,22 @@ class _LoginPageState extends State<LoginPage> {
   User afterUser;
   List<ProfileModel> myProfileList = [];
   List<ProfileModel> myProfileListAfter;
+  double height;
+  double width;
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarColor: Colors.transparent));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+    //     .copyWith(statusBarColor: Colors.transparent));
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.blue, Colors.white70],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter),
-        ),
+        decoration: BoxDecoration(color: colorMain),
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
-            : ListView(
-                children: <Widget>[
+            : Column(
+                children: [
                   headerSection(),
                   textSection(),
                   buttonSection(),
@@ -291,13 +291,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Container headerSection() {
     return Container(
-      margin: EdgeInsets.only(top: 50.0),
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Text("Login",
-          style: TextStyle(
-              color: Colors.white70,
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold)),
+      padding: EdgeInsets.only(top: height * 0.1),
+      child: Image(
+        image: AssetImage('assets/images/logo_character.png'),
+      ),
     );
   }
 }

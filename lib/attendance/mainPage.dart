@@ -142,7 +142,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                                         .profileImageUrl ==
                                                     null
                                                 ? AssetImage(
-                                                    'assets/images/profile.png')
+                                                    'assets/images/profile_default.png')
                                                 : NetworkImage(UrlPrefix.urls
                                                         .substring(
                                                             0,

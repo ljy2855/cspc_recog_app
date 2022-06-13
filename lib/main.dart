@@ -4,9 +4,11 @@ import 'package:cspc_recog/calendar/calendar.dart';
 import 'package:cspc_recog/attendance/mainPage.dart';
 import 'package:cspc_recog/board/screen/screen_home.dart';
 import 'package:cspc_recog/common/custom_icons_icons.dart';
+import 'package:cspc_recog/notice/noticeView.dart';
 import 'package:cspc_recog/providers/userData.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +16,9 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Obtain a list of the available cameras on the device.
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   runApp(
     MultiProvider(
       providers: [
@@ -36,6 +41,7 @@ class MainApp extends StatelessWidget {
           elevation: 0.0,
         ),
       ),
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
       ],
@@ -76,6 +82,7 @@ class _MyMainPageState extends State<MyMainPage> {
     statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
       key: _scaffoldKey,
+      endDrawer: Drawer(child: NoticeView()),
       appBar: AppBar(
         toolbarHeight: height * 0.14 - statusBarHeight,
         title: Text("CSPC"), //TODO FIX
@@ -94,8 +101,7 @@ class _MyMainPageState extends State<MyMainPage> {
               CustomIcons.bell_icon,
               color: Colors.white,
             ),
-            onPressed: () {},
-            //onPressed: () => _scaffoldKey.currentState.openEndDrawer()),
+            onPressed: () => _scaffoldKey.currentState.openEndDrawer(),
           ),
         ],
       ),

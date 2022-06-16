@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cspc_recog/urls.dart';
 
 class NoticeModel {
+  final int id;
   final int profileId;
   final String type;
   final DateTime createTime;
@@ -10,6 +11,7 @@ class NoticeModel {
   final String content;
 
   NoticeModel({
+    this.id,
     this.profileId,
     this.type,
     this.createTime,
@@ -19,6 +21,7 @@ class NoticeModel {
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) {
     return NoticeModel(
+      id: json['id'],
       profileId: json['profile'],
       type: json['notice_type'],
       createTime: DateTime.parse(json['create_time']),
@@ -33,7 +36,7 @@ Future<List<NoticeModel>> getNoticeList(context, final int profileId) async {
   try {
     final res = await http.get(
       Uri.parse(
-        UrlPrefix.urls + 'notice/' + profileId.toString(),
+        UrlPrefix.urls + 'notice/profile=${profileId.toString()}/',
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -49,4 +52,20 @@ Future<List<NoticeModel>> getNoticeList(context, final int profileId) async {
     print(e);
   }
   return noticeList;
+}
+
+deleteNotice(final int noticeId) async {
+  try {
+    final res = await http.delete(
+      Uri.parse(
+        UrlPrefix.urls + 'notice/id=${noticeId.toString()}/',
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    print(res);
+  } catch (e) {
+    print(e);
+  }
 }

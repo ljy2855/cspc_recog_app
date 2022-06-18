@@ -1,5 +1,6 @@
 import 'package:cspc_recog/attendance/profileDrawer.dart';
 import 'package:cspc_recog/auth/auth.dart';
+import 'package:cspc_recog/board/provider/post_provider.dart';
 import 'package:cspc_recog/calendar/calendar.dart';
 import 'package:cspc_recog/attendance/mainPage.dart';
 import 'package:cspc_recog/board/screen/screen_home.dart';
@@ -23,6 +24,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MyLoginUser()),
+        ChangeNotifierProvider(create: (_) => BoardProvider()),
       ],
       child: MainApp(),
     ),

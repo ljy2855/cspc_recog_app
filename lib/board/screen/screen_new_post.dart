@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:cspc_recog/board/model/model_board.dart';
 import 'package:cspc_recog/board/screen/screen_post.dart';
 import 'package:cspc_recog/common/custom_icons_icons.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cspc_recog/providers/userData.dart';
 import 'package:flutter/material.dart';
 import 'package:cspc_recog/urls.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -22,7 +23,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
   Post createdPost;
   String title = '';
-  int profile_id = 1; //임시 프로필 아이디 TODO
+  int profileId;
   String name = '';
   String content = '';
 
@@ -38,12 +39,13 @@ class _NewPostScreenState extends State<NewPostScreen> {
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
-
+    MyLoginUser myLogin = Provider.of<MyLoginUser>(context, listen: false);
     _sendPost(int pk) async {
+      profileId = myLogin.getProfile().profileId;
       var request = http.MultipartRequest(
           'POST', Uri.parse(UrlPrefix.urls + 'board/' + pk.toString()));
       request.fields['title'] = title;
-      request.fields['author'] = profile_id.toString();
+      request.fields['author'] = profileId.toString();
       request.fields['contents'] = content;
       request.fields['board_id'] = pk.toString();
       await Future.forEach(

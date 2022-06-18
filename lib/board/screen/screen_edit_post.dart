@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:cspc_recog/board/model/model_board.dart';
 import 'package:cspc_recog/board/screen/screen_post.dart';
 import 'package:cspc_recog/common/custom_icons_icons.dart';
+import 'package:cspc_recog/providers/userData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cspc_recog/urls.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,8 +27,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Post editedPost;
   String title = '';
   //TODO
-  int profileId = 1; //임시 프로필 아이디
-  String name = '';
+  int profileId; //임시 프로필 아이디
   String content = '';
 
   final ImagePicker picker = ImagePicker();
@@ -108,7 +109,8 @@ class _EditPostScreenState extends State<EditPostScreen> {
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
-
+    MyLoginUser myLogin = Provider.of<MyLoginUser>(context, listen: false);
+    profileId = myLogin.getProfile().profileId;
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,

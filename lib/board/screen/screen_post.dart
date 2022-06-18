@@ -1,6 +1,7 @@
 import 'package:cspc_recog/board/model/model_board.dart';
 import 'package:cspc_recog/board/screen/screen_edit_post.dart';
 import 'package:cspc_recog/common/custom_icons_icons.dart';
+import 'package:cspc_recog/providers/userData.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -8,6 +9,7 @@ import 'package:like_button/like_button.dart';
 import 'package:cspc_recog/urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../model/model_board.dart';
 
@@ -36,10 +38,8 @@ class _PostScreenState extends State<PostScreen> {
   List<Comment> comments = [];
   List<ImageUrl> images = [];
 
-  //TODO
-  //임시 profileId, nickName
-  int profileId = 1;
-  String nickName = "승민";
+  int profileId;
+  String nickName;
   String content;
 
   _sendComment(int pk) async {
@@ -60,6 +60,9 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MyLoginUser myLogin = Provider.of<MyLoginUser>(context, listen: false);
+    profileId = myLogin.getProfile().profileId;
+    nickName = myLogin.getProfile().nickName;
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
@@ -356,7 +359,7 @@ class _PostScreenState extends State<PostScreen> {
                     : (SimpleDialogOption(
                         child: Text('글 수정하기',
                             style: TextStyle(color: Colors.black54)),
-                        onPressed: editPost,
+                        onPressed: () => editPost(mContext),
                       )),
                 (widget.post.authorId != profileId)
                     ? (Container())
@@ -390,16 +393,20 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 
-  editPost() async {
+  editPost(BuildContext context) async {
     Post tmp;
     Navigator.pop(context);
     tmp = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => EditPostScreen(
+          builder: (context) => ChangeNotifierProvider(
+            create: (context) => MyLoginUser(),
+            child: EditPostScreen(
                 boardId: widget.boardId,
                 boardName: widget.boardName,
-                post: widget.post)));
+                post: widget.post),
+          ),
+        ));
     if (tmp != null) {
       setState(() {
         widget.post = tmp;

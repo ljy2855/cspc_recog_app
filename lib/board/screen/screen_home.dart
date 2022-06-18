@@ -1,4 +1,5 @@
 import 'package:cspc_recog/board/provider/post_provider.dart';
+import 'package:cspc_recog/providers/userData.dart';
 import 'package:flutter/material.dart';
 import 'package:cspc_recog/board/screen/screen_post_list.dart';
 import 'package:cspc_recog/board/screen/screen_new_board.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<BoardPage> {
                                 );
                               } else {
                                 boards = snapshot.data;
-                                return boardList();
+                                return boardList(context);
                               }
                             }),
                       ],
@@ -98,7 +99,7 @@ class _HomeScreenState extends State<BoardPage> {
     );
   }
 
-  Widget boardList() {
+  Widget boardList(BuildContext context) {
     return Container(
       child: Column(
         children: [
@@ -138,12 +139,9 @@ class _HomeScreenState extends State<BoardPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (context) => BoardProvider(),
-                        child: ListScreen(
-                          boardId: board.boardId,
-                          boardName: board.boardName,
-                        ),
+                      builder: (context) => ListScreen(
+                        boardId: board.boardId,
+                        boardName: board.boardName,
                       ),
                     ),
                   ),

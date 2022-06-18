@@ -10,14 +10,6 @@ import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
 
-final List<Color> ColorList = [
-  Color(0xff86e3ce),
-  Color(0xffd0e6a5),
-  Color(0xffffdd94),
-  Color(0xfffa897b),
-  Color(0xffccabd8),
-];
-
 class ListScreen extends StatefulWidget {
   int boardId;
   String boardName;
@@ -127,7 +119,8 @@ class _ListScreenState extends State<ListScreen> {
                             shrinkWrap: true,
                             itemCount: posts.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return buildListView(posts[index], width, height);
+                              return buildListView(
+                                  context, posts[index], width, height);
                             },
                             separatorBuilder: (context, index) {
                               //if (index == 0) return SizedBox.shrink();
@@ -171,7 +164,8 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   //TODO 진용 UI fix
-  Widget buildListView(Post post, double width, double height) {
+  Widget buildListView(
+      BuildContext context, Post post, double width, double height) {
     String postTime;
     if (DateTime.now().difference(post.createdTime).inMinutes < 60) {
       postTime =

@@ -27,8 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   TokenReceiver myToken;
   User myUser;
   User afterUser;
-  List<ProfileModel> myProfileList = [];
-  List<ProfileModel> myProfileListAfter;
+  ProfileModel myProfile;
   double height;
   double width;
 
@@ -122,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
 
         myLogin.setUser(myUser);
 
-        profilelistGet(myUser.userId);
+        getMyProfile(myUser.userId);
 
         /*
         afterUser = myLogin.getUser();
@@ -145,9 +144,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  profilelistGet(int id) async {
+  getMyProfile(int id) async {
     print("proflielist start");
-    //MyLoginUser myLogin = Provider.of<MyLoginUser>(context, listen: false);
+    MyLoginUser myLogin = Provider.of<MyLoginUser>(context, listen: false);
 
     final response = await http.post(
       Uri.parse(UrlPrefix.urls + "users/auth/user/profile/"),
@@ -161,21 +160,12 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 200) {
       final data = json.decode(utf8.decode(response.bodyBytes));
-      final dataCast = data['profile'] ?? null;
+      print(data);
+      final Map<String, dynamic> dataCast = data['profile'] ?? null;
       if (dataCast != null) {
-        for (Map<String, dynamic> temp in dataCast) {
-          myProfileList.add(ProfileModel.fromJson(temp));
-        }
-        print(myProfileList);
-
-        /*
-        myLogin.setProfileList(myProfileList);
-
-        myProfileListAfter = myLogin.getProfileList();
-        print(myProfileListAfter);
-        print(myProfileListAfter[0].profileId);
-        print(myProfileListAfter[1].profileId);
-        */
+        myProfile = ProfileModel.fromJson(dataCast);
+        print(myProfile);
+        myLogin.setProfile(myProfile);
       }
     } else {}
   }

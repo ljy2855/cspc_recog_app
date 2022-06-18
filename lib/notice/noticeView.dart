@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cspc_recog/common/custom_icons_icons.dart';
 import 'package:cspc_recog/notice/models/notice.dart';
+import 'package:cspc_recog/providers/userData.dart';
 
 import 'package:cspc_recog/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NoticeView extends StatefulWidget {
   @override
@@ -20,7 +22,8 @@ class _NoticeViewState extends State<NoticeView> {
   List<NoticeModel> notices;
   @override
   Widget build(BuildContext context) {
-    int profileId = 1;
+    MyLoginUser myLogin = Provider.of<MyLoginUser>(context, listen: false);
+    int profileId = myLogin.getProfile().profileId;
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(

@@ -1,4 +1,3 @@
-
 class User {
   int userId;
   String userName;
@@ -8,10 +7,7 @@ class User {
     this.userName,
   });
 
-  factory User.fromJson(Map<String, dynamic> json){
-    return User(
-        userId: json['id'],
-        userName: json['username']
-    );
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(userId: json['id'], userName: json['username']);
   }
 }

@@ -43,13 +43,34 @@ class _LoginPageState extends State<LoginPage> {
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
             : Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   headerSection(),
-                  textSection(),
-                  buttonSection(),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFBFBFB),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          )),
+                      child: Column(
+                        children: [
+                          Image(
+                              filterQuality: FilterQuality.high,
+                              image:
+                                  AssetImage("assets/images/logo_letters.png")),
+                          textSection(),
+                          buttonSection(),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -194,22 +215,44 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Container buttonSection() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 15.0,
-      ),
-      margin: EdgeInsets.only(top: 25.0),
+  Widget buttonSection() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.15),
       child: Column(children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              child: Text(
+                "회원가입",
+                style: TextStyle(
+                    color: Colors.black45,
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal),
+              ),
+              onPressed: () {
+                setState(() {
+                  _isLoading = true;
+                });
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => RegisterPage()));
+              },
+            ),
+          ],
+        ),
         ElevatedButton(
           child: Text(
-            "Sign In",
-            style: TextStyle(color: Colors.white70, fontSize: 20),
+            "로그인",
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-            primary: Colors.indigoAccent,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            primary: colorMain,
             onPrimary: Colors.black,
             minimumSize: Size(MediaQuery.of(context).size.width, 40),
           ),
@@ -220,22 +263,6 @@ class _LoginPageState extends State<LoginPage> {
             signIn(idController.text, passwordController.text);
           },
         ),
-        SizedBox(height: 20.0),
-        TextButton(
-          child: Text(
-            "Don't have an account yet? Sign Up",
-            style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          onPressed: () {
-            setState(() {
-              _isLoading = true;
-            });
-
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => RegisterPage()));
-          },
-        )
       ]),
     );
   }
@@ -243,45 +270,46 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController idController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
-  Container textSection() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-      child: Column(
-        children: <Widget>[
-          TextFormField(
+  Widget textSection() {
+    return Column(
+      children: <Widget>[
+        Card(
+          child: TextFormField(
             controller: idController,
             cursorColor: Colors.white,
-            style: TextStyle(color: Colors.white70),
+            style: TextStyle(color: Colors.black45),
             decoration: InputDecoration(
-              icon: Icon(Icons.email, color: Colors.white70),
-              hintText: "ID",
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintText: "아이디",
+              contentPadding: EdgeInsets.only(left: 13),
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.black45),
+              constraints: BoxConstraints(maxWidth: width * 0.7),
             ),
           ),
-          SizedBox(height: 30.0),
-          TextFormField(
+        ),
+        SizedBox(height: 30.0),
+        Card(
+          child: TextFormField(
             controller: passwordController,
             cursorColor: Colors.white,
             obscureText: true,
-            style: TextStyle(color: Colors.white70),
+            style: TextStyle(color: Colors.black45),
             decoration: InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
-              hintText: "Password",
-              border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70)),
-              hintStyle: TextStyle(color: Colors.white70),
+              hintText: "비밀번호",
+              contentPadding: EdgeInsets.only(left: 13),
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.black45),
+              constraints: BoxConstraints(maxWidth: width * 0.7),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Container headerSection() {
     return Container(
-      padding: EdgeInsets.only(top: height * 0.1),
+      // padding: EdgeInsets.symmetric(vertical: height * 0.05),
       child: Image(
         image: AssetImage('assets/images/logo_character.png'),
       ),

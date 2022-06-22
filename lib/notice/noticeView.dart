@@ -29,9 +29,18 @@ class _NoticeViewState extends State<NoticeView> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(onPressed: _removeAllNotices, child: Text("모두 지우기"))
+          TextButton(
+              onPressed: _removeAllNotices,
+              child: Text(
+                "모두 지우기",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                ),
+              ))
         ],
       ),
+      backgroundColor: Color(0xFBF2F2F2),
       body: Container(
         child: FutureBuilder<List<NoticeModel>>(
           future: getNoticeList(context, profileId),
@@ -77,6 +86,8 @@ class _NoticeViewState extends State<NoticeView> {
       _removeNotice(i);
       await Future.delayed(Duration(milliseconds: 100));
     }
+    await Future.delayed(Duration(milliseconds: 200));
+    Navigator.of(context).pop();
   }
 
   Widget noticeBox(double height, double width, NoticeModel notice, int index) {
@@ -86,6 +97,9 @@ class _NoticeViewState extends State<NoticeView> {
       child: Container(
         padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
         child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           color: Colors.white,
           child: Column(
             children: [
